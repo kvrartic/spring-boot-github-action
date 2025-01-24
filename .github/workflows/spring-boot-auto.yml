@@ -107,7 +107,7 @@ jobs:
     - name: Packaging-artifacts
       run: echo "Packaging artifacts before Deploying to QA"
 
-  Packaging-artifacts:
+  Upload-artifact-nexus:
     runs-on: ubuntu-latest
     needs: Packaging-artifacts
 
