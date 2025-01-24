@@ -105,7 +105,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Packaging-artifacts
-      run: echo "Packaging artifacts before Deploying to QA"
+      run: echo "Packaging artifacts before Deploying to Quality Assurance"
 
   Upload-artifact-nexus:
     runs-on: ubuntu-24.04
