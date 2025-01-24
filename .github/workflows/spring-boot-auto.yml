@@ -82,5 +82,8 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
+    - name: Set execute permissions for deploy script
+      run: chmod +x ./deploy.sh
+
     - name: Deploy Application
       run: ./deploy.sh
