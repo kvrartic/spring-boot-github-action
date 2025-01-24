@@ -131,7 +131,7 @@ jobs:
 
   staging-deployment:
     runs-on: ubuntu-latest
-    needs: QualityAssessment-deployment
+    needs: acceptance-tests
 
     steps:
     - name: Checkout repository
