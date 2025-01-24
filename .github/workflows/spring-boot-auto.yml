@@ -8,7 +8,6 @@ on:
 jobs:
   pre-build:
     runs-on: ubuntu-latest
-    needs: acceptance-tests
 
     steps:
     - name: Checkout repository
@@ -40,6 +39,17 @@ jobs:
 
     - name: Build with Maven
       run: mvn clean install
+
+  model-validation:
+    runs-on: ubuntu-latest
+    needs: unit-tests
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Validate Model
+      run: echo "Validating model after unit tests"
 
   unit-tests:
     runs-on: ubuntu-latest
@@ -85,9 +95,31 @@ jobs:
     - name: Run Acceptance Tests
       run: mvn verify -Pacceptance-tests
 
-  staging-deployment:
+  Packaging-artifacts:
     runs-on: ubuntu-latest
     needs: acceptance-tests
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Packaging-artifacts
+      run: echo "Packaging artifacts before Deploying to QA"
+
+  QualityAssessment-deployment:
+    runs-on: ubuntu-latest
+    needs: acceptance-tests
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Deploy to QualityAssessment
+      run: echo "Deploying to QA"
+
+  staging-deployment:
+    runs-on: ubuntu-latest
+    needs: QualityAssessment-deployment
 
     steps:
     - name: Checkout repository
@@ -96,20 +128,9 @@ jobs:
     - name: Deploy to Staging
       run: echo "Deploying to Staging"
 
-  staging-approval:
-    runs-on: ubuntu-latest
-    needs: staging-deployment
-    if: github.event_name == 'workflow_dispatch'
-
-    steps:
-    - name: Await manual approval
-      uses: hmarr/auto-approve-action@v2
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-
   production-deployment:
     runs-on: ubuntu-latest
-    needs: staging-approval
+    needs: staging-deployment
 
     steps:
     - name: Checkout repository
