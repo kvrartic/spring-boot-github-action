@@ -50,7 +50,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Validate Model
-      run: echo "Validating model after unit tests"
+      run: echo "Validating model after unit tests and successful build"
 
   unit-tests:
     runs-on: ubuntu-24.04
